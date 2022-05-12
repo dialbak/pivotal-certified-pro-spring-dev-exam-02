@@ -3,18 +3,18 @@ Freeware License, some rights reserved
 
 Copyright (c) 2019 Iuliana Cosmina
 
-Permission is hereby granted, free of charge, to anyone obtaining a copy 
-of this software and associated documentation files (the "Software"), 
-to work with the Software within the limits of freeware distribution and fair use. 
-This includes the rights to use, copy, and modify the Software for personal use. 
-Users are also allowed and encouraged to submit corrections and modifications 
+Permission is hereby granted, free of charge, to anyone obtaining a copy
+of this software and associated documentation files (the "Software"),
+to work with the Software within the limits of freeware distribution and fair use.
+This includes the rights to use, copy, and modify the Software for personal use.
+Users are also allowed and encouraged to submit corrections and modifications
 to the Software for the benefit of other users.
 
-It is not allowed to reuse,  modify, or redistribute the Software for 
-commercial use in any way, or for a user's educational materials such as books 
-or blog articles without prior permission from the copyright holder. 
+It is not allowed to reuse,  modify, or redistribute the Software for
+commercial use in any way, or for a user's educational materials such as books
+or blog articles without prior permission from the copyright holder.
 
-The above copyright notice and this permission notice need to be included 
+The above copyright notice and this permission notice need to be included
 in all copies or substantial portions of the software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 // comment the @Disabled annotation to run the test
-@Disabled
+//@Disabled
 public class SimpleOperationsServiceTest extends SimpleServiceTestBase {
     static final Long DETECTIVE_ID = 1L;
     static final String BADGE_NO = "NY112233";
@@ -93,8 +93,12 @@ public class SimpleOperationsServiceTest extends SimpleServiceTestBase {
         evidenceLocationMap.put(ev, "Here");
 
         //create criminal case
-        var criminalCase = operationsService.createCriminalCase(CaseType.FELONY,
-                "Drugs being sold to minors", BADGE_NO, evidenceLocationMap);
+        var criminalCase = operationsService.createCriminalCase(
+                CaseType.FELONY,
+                "Drugs being sold to minors",
+                BADGE_NO,
+                evidenceLocationMap
+        );
 
         assertNotNull(criminalCase);
         assertNotNull(criminalCase.getLeadInvestigator());

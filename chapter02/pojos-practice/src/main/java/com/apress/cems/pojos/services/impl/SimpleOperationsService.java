@@ -3,18 +3,18 @@ Freeware License, some rights reserved
 
 Copyright (c) 2019 Iuliana Cosmina
 
-Permission is hereby granted, free of charge, to anyone obtaining a copy 
-of this software and associated documentation files (the "Software"), 
-to work with the Software within the limits of freeware distribution and fair use. 
-This includes the rights to use, copy, and modify the Software for personal use. 
-Users are also allowed and encouraged to submit corrections and modifications 
+Permission is hereby granted, free of charge, to anyone obtaining a copy
+of this software and associated documentation files (the "Software"),
+to work with the Software within the limits of freeware distribution and fair use.
+This includes the rights to use, copy, and modify the Software for personal use.
+Users are also allowed and encouraged to submit corrections and modifications
 to the Software for the benefit of other users.
 
-It is not allowed to reuse,  modify, or redistribute the Software for 
-commercial use in any way, or for a user's educational materials such as books 
-or blog articles without prior permission from the copyright holder. 
+It is not allowed to reuse,  modify, or redistribute the Software for
+commercial use in any way, or for a user's educational materials such as books
+or blog articles without prior permission from the copyright holder.
 
-The above copyright notice and this permission notice need to be included 
+The above copyright notice and this permission notice need to be included
 in all copies or substantial portions of the software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -27,21 +27,24 @@ SOFTWARE.
 */
 package com.apress.cems.pojos.services.impl;
 
-import com.apress.cems.dao.*;
+import com.apress.cems.dao.CriminalCase;
+import com.apress.cems.dao.Detective;
+import com.apress.cems.dao.Evidence;
 import com.apress.cems.pojos.repos.CriminalCaseRepo;
 import com.apress.cems.pojos.repos.DetectiveRepo;
 import com.apress.cems.pojos.repos.EvidenceRepo;
 import com.apress.cems.pojos.repos.StorageRepo;
 import com.apress.cems.pojos.services.OperationsService;
 import com.apress.cems.pojos.services.ServiceException;
-import com.apress.cems.util.CaseStatus;
 import com.apress.cems.util.CaseType;
-import com.apress.cems.util.NumberGenerator;
 import com.apress.cems.util.Rank;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Iuliana Cosmina
@@ -59,20 +62,39 @@ public class SimpleOperationsService implements OperationsService {
     }
 
     @Override
-    public CriminalCase createCriminalCase(CaseType caseType, String shortDescription, String badgeNo, Map<Evidence, String> evidenceMap) {
-        // get detective
-        // TODO 1. retrieve detective  (according to diagram 2.5)
-
-        // create a criminal case instance
-        CriminalCase criminalCase = new CriminalCase();
-        // TODO 2. set fields; use ifPresent(..) to set(or not) the leadDetective field
+    public CriminalCase createCriminalCase(
+            CaseType caseType,
+            String shortDescription,
+            String badgeNo,
+            Map<Evidence, String> evidenceMap) {
+        /*
+         * get detective. retrieve detective instance using detectiveRepo
+         * create and populate a criminal case instance
+         * set fields, use ifPresent(..) to set(or not) the leadDetective field
+         */
+        var detectiveOpt = detectiveRepo.findByBadgeNumber(badgeNo);
+        var criminalCase = new CriminalCase();
+        criminalCase.setType(caseType);
+        criminalCase.setShortDescription(shortDescription);
+        detectiveOpt.ifPresent(criminalCase::setLeadInvestigator);
+        criminalCaseRepo.save(criminalCase);
 
         evidenceMap.forEach((ev, storageName) -> {
-            // TODO 3. retrieve storage, throw ServiceException if not found
-            // TODO 4. if storage is found, link it to the evidence and add evidence to the case
+            /*
+             * retrieve storage, throw ServiceException if not found
+             * if storage is found, link it to the evidence and add evidence to the case
+             */
+            var storageOpt = storageRepo.findByName(storageName);
+            if (storageOpt.isPresent()) {
+                ev.setStorage(storageOpt.get());
+                criminalCase.addEvidence(ev);
+                evidenceRepo.save(ev);
+            } else {
+                throw new ServiceException("Evidence Storage not present in the system");
+            }
         });
 
-        // TODO 5. save the criminal case instance
+        // Save the criminal case instance
         return criminalCase;
     }
 

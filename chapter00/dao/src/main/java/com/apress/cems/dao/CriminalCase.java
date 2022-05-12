@@ -3,18 +3,18 @@ Freeware License, some rights reserved
 
 Copyright (c) 2019 Iuliana Cosmina
 
-Permission is hereby granted, free of charge, to anyone obtaining a copy 
-of this software and associated documentation files (the "Software"), 
-to work with the Software within the limits of freeware distribution and fair use. 
-This includes the rights to use, copy, and modify the Software for personal use. 
-Users are also allowed and encouraged to submit corrections and modifications 
+Permission is hereby granted, free of charge, to anyone obtaining a copy
+of this software and associated documentation files (the "Software"),
+to work with the Software within the limits of freeware distribution and fair use.
+This includes the rights to use, copy, and modify the Software for personal use.
+Users are also allowed and encouraged to submit corrections and modifications
 to the Software for the benefit of other users.
 
-It is not allowed to reuse,  modify, or redistribute the Software for 
-commercial use in any way, or for a user's educational materials such as books 
-or blog articles without prior permission from the copyright holder. 
+It is not allowed to reuse,  modify, or redistribute the Software for
+commercial use in any way, or for a user's educational materials such as books
+or blog articles without prior permission from the copyright holder.
 
-The above copyright notice and this permission notice need to be included 
+The above copyright notice and this permission notice need to be included
 in all copies or substantial portions of the software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -36,26 +36,22 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @author Iuliana Cosmina
- * @since 1.0
- */
 @SequenceGenerator(name = "seqCriminalCaseGen", allocationSize = 1)
 @Entity
-@Table(name="CRIMINAL_CASE")
-public class CriminalCase extends  AbstractEntity{
+@Table(name = "CRIMINAL_CASE")
+public class CriminalCase extends AbstractEntity {
 
     @NotEmpty
-    @Column(name="case_number", unique = true, nullable = false)
+    @Column(name = "case_number", unique = true, nullable = false)
     private String number;
 
     @NotNull
-    @Column(name="case_type")
+    @Column(name = "case_type")
     @Enumerated(EnumType.STRING)
     private CaseType type;
 
     @NotEmpty
-    @Column(name="short_description")
+    @Column(name = "short_description")
     private String shortDescription;
 
     private String detailedDescription;
@@ -76,9 +72,9 @@ public class CriminalCase extends  AbstractEntity{
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
-            name="working_detective_case",
-            joinColumns=@JoinColumn(name="case_id", referencedColumnName="id"),
-            inverseJoinColumns=@JoinColumn(name="detective_id", referencedColumnName="id"))
+            name = "working_detective_case",
+            joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "detective_id", referencedColumnName = "id"))
     private Set<Detective> assigned = new HashSet<>();
 
     public CriminalCase() {
@@ -140,7 +136,7 @@ public class CriminalCase extends  AbstractEntity{
     }
 
     public void setEvidenceSet(Set<Evidence> evidenceSetArg) {
-        evidenceSetArg.forEach(this :: addEvidence);
+        evidenceSetArg.forEach(this::addEvidence);
     }
 
     public boolean addEvidence(Evidence evidence) {
@@ -161,10 +157,10 @@ public class CriminalCase extends  AbstractEntity{
     }
 
     public void setAssigned(Set<Detective> assignedArg) {
-        assignedArg.forEach(this:: addDetective);
+        assignedArg.forEach(this::addDetective);
     }
 
-    //case is assigned to the detective, always use this method
+    // une affaire (case) est attribuée a un détective, utilisez toujours cette méthode
     public boolean addDetective(Detective detective) {
         detective.addCase(this);
         return assigned.add(detective);

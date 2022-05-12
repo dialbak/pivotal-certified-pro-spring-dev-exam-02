@@ -3,18 +3,18 @@ Freeware License, some rights reserved
 
 Copyright (c) 2019 Iuliana Cosmina
 
-Permission is hereby granted, free of charge, to anyone obtaining a copy 
-of this software and associated documentation files (the "Software"), 
-to work with the Software within the limits of freeware distribution and fair use. 
-This includes the rights to use, copy, and modify the Software for personal use. 
-Users are also allowed and encouraged to submit corrections and modifications 
+Permission is hereby granted, free of charge, to anyone obtaining a copy
+of this software and associated documentation files (the "Software"),
+to work with the Software within the limits of freeware distribution and fair use.
+This includes the rights to use, copy, and modify the Software for personal use.
+Users are also allowed and encouraged to submit corrections and modifications
 to the Software for the benefit of other users.
 
-It is not allowed to reuse,  modify, or redistribute the Software for 
-commercial use in any way, or for a user's educational materials such as books 
-or blog articles without prior permission from the copyright holder. 
+It is not allowed to reuse,  modify, or redistribute the Software for
+commercial use in any way, or for a user's educational materials such as books
+or blog articles without prior permission from the copyright holder.
 
-The above copyright notice and this permission notice need to be included 
+The above copyright notice and this permission notice need to be included
 in all copies or substantial portions of the software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -27,20 +27,15 @@ SOFTWARE.
 */
 package com.apress.cems.dao;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Objects;
-
-import javax.persistence.*;
-
 import com.apress.cems.util.DateProcessor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- * @author Iuliana Cosmina
- * @since 1.0
- */
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
@@ -64,7 +59,7 @@ public abstract class AbstractEntity implements Serializable {
     protected LocalDateTime modifiedAt;
 
     /**
-     * This constructor is required by JPA. All subclasses of this class will inherit this constructor.
+     * Ce constructeur est requis par JPA. Toutes les sous-classes de cette classe hériteront de ce constructeur.
      */
     protected AbstractEntity() {
         createdAt = LocalDateTime.now();
@@ -72,10 +67,12 @@ public abstract class AbstractEntity implements Serializable {
     }
 
     /**
-     * Returns the entity identifier. This identifier is unique per entity. It is used by persistence frameworks used in a project,
-     * and although is public, it should not be used by application code.
-     * This identifier is mapped by ORM (Object Relational Mapper) to the database primary key of the Person record to which
-     * the entity instance is mapped.
+     * Renvoie l'identifiant de l'entité. Cet identifiant est unique par entité. Il est utilisé par les frameworks de
+     * persistance utilisés dans un projet,
+     * et bien qu'il soit public, il ne doit pas être utilisé par le code d'application.
+     * Cet identifiant est mappé par ORM (Object Relational Mapper) à la clé primaire de la base de données de
+     * l'enregistrement Person auquel
+     * l'instance d'entité est mappée.
      *
      * @return the unique entity identifier
      */
@@ -84,8 +81,8 @@ public abstract class AbstractEntity implements Serializable {
     }
 
     /**
-     * Sets the entity identifier. This identifier is unique per entity.  Is is used by persistence frameworks
-     * and although is public, it should never be set by application code.
+     * Définit l'identifiant de l'entité. Cet identifiant est unique par entité. Est utilisé par les frameworks de persistance
+     * et bien qu'il soit public, il ne doit jamais être défini par le code d'application.
      *
      * @param id the unique entity identifier
      */
